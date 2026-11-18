@@ -13,7 +13,21 @@ def two_sum(nums, target):
     #   ...
     # TODO: return the indices [i, j] (i < j) of the two numbers in `nums` that add up
     #   to `target`. Assume there is exactly one answer.
-    pass
+    # num_dict = {}
+    # for i, num in enumerate(nums):
+    #     complement = target - num
+    #     if complement in num_dict:
+    #         return [num_dict[complement], i]
+    #     num_dict[num] = i
+    # return []
+    num_dict = {}
+    for i in range(len(nums)):
+        num = nums[i]
+        complement = target - num
+        if complement in num_dict:
+            return [num_dict[complement], i]
+        num_dict[num] = i
+    return []
 
 
 def max_profit(prices):
@@ -21,7 +35,14 @@ def max_profit(prices):
     #   ...
     # TODO: `prices[i]` is a stock price on day i. Return the most profit obtainable by
     #   buying on one day and selling on a LATER day. If no profit is possible, return 0.
-    pass
+    min_price = float('inf')
+    max_profit = 0
+
+    for price in prices:
+        min_price = min(min_price, price)
+        max_profit = max(max_profit, price - min_price)
+
+    return max_profit
 
 
 def max_subarray(nums):
@@ -29,7 +50,13 @@ def max_subarray(nums):
     #   ...
     # TODO: return the largest sum of any contiguous (in-a-row) block of numbers in
     #   `nums`. The list has at least one number.
-    pass
+    max_sum = current_sum = nums[0]
+
+    for num in nums[1:]:
+        current_sum = max(num, current_sum + num)
+        max_sum = max(max_sum, current_sum)
+
+    return max_sum
 
 
 def is_balanced(s):   # Part 4 - stretch (optional)
@@ -37,7 +64,17 @@ def is_balanced(s):   # Part 4 - stretch (optional)
     #   ...
     # TODO: return True if every bracket in `s` is closed correctly and in the right
     #   order. The brackets are ( ) [ ] { }. (Hint: a list used as a stack works well.)
-    pass
+    stack = []
+    bracket_map = {')': '(', ']': '[', '}': '{'}
+
+    for char in s:
+        if char in bracket_map.values():
+            stack.append(char)
+        elif char in bracket_map:
+            if not stack or stack.pop() != bracket_map[char]:
+                return False
+
+    return not stack
 
 
 def main():
